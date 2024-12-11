@@ -1,0 +1,27 @@
+{
+  "name": "jowan-print-design-with-adobe-express",
+  "version": "1.0.0",
+  "description": "Design with Adobe Expres",
+  "type": "module",
+  "keywords": [
+    "Embed SDK",
+    "Adobe Express"
+  ],
+  "author": "Davide Barranca",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.1",
+    "vite-plugin-mkcert": "^1.17.6"
+  },
+  "dependencies": {
+    "@spectrum-web-components/bundle": "^1.0.3",
+    "@spectrum-web-components/button": "^0.47.2",
+    "@spectrum-web-components/divider": "^0.47.2",
+    "@spectrum-web-components/theme": "^0.47.2"
+  }
+}
