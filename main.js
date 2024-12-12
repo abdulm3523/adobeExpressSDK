@@ -1,15 +1,3 @@
-/*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-
 import "./style.css";
 
 // Theme imports
@@ -20,40 +8,43 @@ import "@spectrum-web-components/theme/sp-theme.js";
 import "@spectrum-web-components/button/sp-button.js";
 import "@spectrum-web-components/divider/sp-divider.js";
 
-// Load the Adobe SDK
-await import("https://cc-embed.adobe.com/sdk/v4/CCEverywhere.js");
-console.log("CCEverywhere loaded", window.CCEverywhere);
+// Encapsulate everything in an async function to avoid top-level await issues
+const initializeApp = async () => {
+  // Load the Adobe SDK
+  await import("https://cc-embed.adobe.com/sdk/v4/CCEverywhere.js");
+  console.log("CCEverywhere loaded", window.CCEverywhere);
 
-// Host information for the Adobe SDK
-const hostInfo = {
-  clientId: import.meta.env.VITE_API_KEY,
-  appName: "Jowan Print Design with Adobe Express",
+  // Host information for the Adobe SDK
+  const hostInfo = {
+    clientId: import.meta.env.VITE_API_KEY, // Replace with a service account key if available
+    appName: "Jowan Print Design with Adobe Express",
+  };
+
+  // Optional configuration parameters (locale, login, etc.)
+  const configParams = {};
+
+  // Initialize Adobe Express Editor
+  const { editor } = await window.CCEverywhere.initialize(
+    hostInfo,
+    configParams
+  );
+
+  // Function to launch the editor
+  const launchEditing = async () => {
+    let docConfig = {}; // Optional document settings (canvas size)
+    let appConfig = {}; // Optional app settings (allowed files, templates, etc.)
+    let exportConfig = []; // Optional export settings (labels, actions, styles, etc.)
+
+    // Open the editor
+    editor.create(docConfig, appConfig, exportConfig);
+  };
+
+  // Automatically launch the editor on page load
+  launchEditing();
+
+  // Add manual trigger (if needed)
+  document.getElementById("launchExpress").onclick = launchEditing;
 };
 
-// Optional configuration parameters (locale, login, etc.)
-const configParams = {};
-
-const { editor } = await window.CCEverywhere.initialize(hostInfo, configParams);
-
-document.getElementById("launchExpress").onclick = async () => {
-  // Optional document settings (canvas size)
-  let docConfig = {};
-  // Optional application settings (allowed files, template, etc.)
-  let appConfig = {};
-  // Optional export settings (label, action type, style, etc.)
-  let exportConfig = [];
-
-  editor.create(docConfig, appConfig, exportConfig);
-};
-
-const lounchEditing = async () => {
-  // Optional document settings (canvas size)
-  let docConfig = {};
-  // Optional application settings (allowed files, template, etc.)
-  let appConfig = {};
-  // Optional export settings (label, action type, style, etc.)
-  let exportConfig = [];
-
-  editor.create(docConfig, appConfig, exportConfig);
-};
-lounchEditing();
+// Call the initializeApp function
+initializeApp();

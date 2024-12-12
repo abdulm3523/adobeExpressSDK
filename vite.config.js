@@ -14,6 +14,9 @@ import { defineConfig } from "vite";
 import mkcert from "vite-plugin-mkcert";
 
 export default defineConfig({
+  esbuild: {
+    target: "es2022", // or 'esnext' for the latest JS features
+  },
   server: {
     https: true,
     port: 5556,
